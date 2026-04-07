@@ -14,6 +14,7 @@ techStack:
 category: mobile
 featured: true
 links:
+  live: https://tablas-de-verdad.vercel.app/
   store: https://play.google.com/store/apps/details?id=com.jovannyrch.tablasdeverdad
 metrics:
   downloads: 350K+
