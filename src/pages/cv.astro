@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { experience, keyAchievements, skillGroups } from '../data/profile';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Layout title="CV | Jovanny Ramírez" description="Professional profile and experience summary for Jovanny Ramírez.">
+	<main class="shell page-stack">
+		<SectionIntro
+			kicker="CV"
+			title="Senior Fullstack & Mobile Engineer with experience across product, architecture, and delivery."
+			copy="Web version of the resume with a concise summary of experience, skills, and selected projects."
+		/>
+
+		<section class="content-section">
+			<div class="cv-header">
+				<div class="section-head compact">
+					<p class="section-kicker">Summary</p>
+					<p class="section-copy">
+						Senior Fullstack and Mobile Engineer with experience building production-grade
+						applications across Flutter, React, Node.js, and backend architecture. Strong background
+						in enterprise systems, APIs, microservices, real-time features, and digital products
+						with large user adoption.
+					</p>
+				</div>
+				<a class="button button-primary" href="/jovanny-ramirez-cv.pdf" download>
+					Download PDF
+				</a>
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="section-head compact">
+				<p class="section-kicker">Highlights</p>
+			</div>
+			<div class="achievements-list">
+				{keyAchievements.map((item) => <article class="achievement-item"><p>{item}</p></article>)}
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="section-head compact">
+				<p class="section-kicker">Experience</p>
+			</div>
+			<section class="timeline-list">
+				{
+					experience.map((job) => (
+						<article class="timeline-item">
+							<div class="timeline-meta">
+								<p class="timeline-period">{job.period}</p>
+								<p class="timeline-company">{job.company}</p>
+							</div>
+							<div class="timeline-content">
+								<h2>{job.role}</h2>
+								<p class="timeline-summary">{job.summary}</p>
+								<ul>
+									{job.points.map((point) => <li>{point}</li>)}
+								</ul>
+							</div>
+						</article>
+					))
+				}
+			</section>
+		</section>
+
+		<section class="content-section">
+			<div class="section-head compact">
+				<p class="section-kicker">Skills</p>
+			</div>
+			<div class="skills-grid">
+				{
+					skillGroups.map((group) => (
+						<article class="skill-card">
+							<p class="skill-title">{group.title}</p>
+							<div class="skill-list">
+								{group.items.map((item) => <span class="skill-chip">{item}</span>)}
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="section-head compact">
+				<p class="section-kicker">Projects</p>
+			</div>
+			<div class="project-grid">
+				{
+					projects.map((project) => (
+						<article class="project-card">
+							<div class="project-card-head">
+								<p class="project-category">{project.data.category}</p>
+								{project.data.metrics.downloads && (
+									<p class="project-role">{project.data.metrics.downloads}</p>
+								)}
+							</div>
+							<h3 class="project-title">
+								<a href={`/projects/${project.id}`}>{project.data.title}</a>
+							</h3>
+							<p class="project-summary">{project.data.description}</p>
+							<ul class="project-tech-list">
+								{project.data.techStack.map((item) => <li>{item}</li>)}
+							</ul>
+						</article>
+					))
+				}
+			</div>
+		</section>
+	</main>
+</Layout>

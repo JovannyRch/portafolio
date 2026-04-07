@@ -1,0 +1,109 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SectionIntro from '../../components/SectionIntro.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => {
+	if (a.data.category === b.data.category) return a.data.title.localeCompare(b.data.title);
+	return a.data.category.localeCompare(b.data.category);
+});
+const filters = [
+	{ label: 'All', value: 'all' },
+	{ label: 'Mobile', value: 'mobile' },
+	{ label: 'Backend', value: 'backend' },
+	{ label: 'Enterprise', value: 'enterprise' },
+];
+---
+
+<Layout title="Projects | Jovanny Ramírez" description="Selected projects across enterprise systems, mobile products, and integrations.">
+	<main class="shell page-stack">
+		<SectionIntro
+			kicker="Projects"
+			title="Selected work across enterprise systems, mobile products, and integrations."
+			copy="Project entries are powered by Astro content collections for a clean, scalable case-study structure."
+		/>
+
+		<section class="content-section">
+			<div class="projects-toolbar">
+				<div class="filter-list" role="tablist" aria-label="Project categories">
+					{
+						filters.map((filter, index) => (
+							<button
+								type="button"
+								class:list={['filter-chip', index === 0 && 'is-active']}
+								data-filter={filter.value}
+								role="tab"
+								aria-selected={index === 0 ? 'true' : 'false'}
+							>
+								{filter.label}
+							</button>
+						))
+					}
+				</div>
+				<p class="projects-count" data-project-count>{projects.length} projects</p>
+			</div>
+
+			<div class="project-grid" data-project-grid>
+				{
+					projects.map((project) => (
+						<div data-project-item data-category={project.data.category}>
+							<ProjectCard project={project} />
+						</div>
+					))
+				}
+			</div>
+		</section>
+	</main>
+</Layout>
+
+<script is:inline>
+	const initProjectsFilter = () => {
+		const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
+		const projectItems = Array.from(document.querySelectorAll('[data-project-item]'));
+		const countNode = document.querySelector('[data-project-count]');
+
+		if (!filterButtons.length || !projectItems.length) return;
+
+		const updateProjects = (activeFilter) => {
+			let visibleCount = 0;
+
+			projectItems.forEach((item) => {
+				const matches = activeFilter === 'all' || item.dataset.category === activeFilter;
+				item.hidden = !matches;
+				if (matches) visibleCount += 1;
+			});
+
+			if (countNode) {
+				countNode.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'}`;
+			}
+		};
+
+		filterButtons.forEach((button) => {
+			if (button.dataset.bound === 'true') return;
+			button.dataset.bound = 'true';
+
+			button.addEventListener('click', () => {
+				const activeFilter = button.dataset.filter ?? 'all';
+
+				filterButtons.forEach((candidate) => {
+					const isActive = candidate === button;
+					candidate.classList.toggle('is-active', isActive);
+					candidate.setAttribute('aria-selected', isActive ? 'true' : 'false');
+				});
+
+				updateProjects(activeFilter);
+			});
+		});
+
+		updateProjects('all');
+	};
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initProjectsFilter, { once: true });
+	} else {
+		initProjectsFilter();
+	}
+
+	document.addEventListener('astro:page-load', initProjectsFilter);
+</script>

@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { experience } from '../data/profile';
+---
+
+<Layout title="About | Jovanny Ramírez" description="About Jovanny Ramírez, Senior Fullstack & Mobile Engineer.">
+	<main class="shell page-stack">
+		<SectionIntro
+			kicker="About"
+			title="Senior engineer focused on scalable systems, mobile products, and architecture-led delivery."
+			copy="Experience spans published mobile products, enterprise applications, backend architecture, real-time systems, and mentoring."
+		/>
+
+		<section class="timeline-list">
+			{
+				experience.map((job) => (
+					<article class="timeline-item">
+						<div class="timeline-meta">
+							<p class="timeline-period">{job.period}</p>
+							<p class="timeline-company">{job.company}</p>
+						</div>
+						<div class="timeline-content">
+							<h2>{job.role}</h2>
+							<p class="timeline-summary">{job.summary}</p>
+							<ul>
+								{job.points.map((point) => <li>{point}</li>)}
+							</ul>
+						</div>
+					</article>
+				))
+			}
+		</section>
+	</main>
+</Layout>

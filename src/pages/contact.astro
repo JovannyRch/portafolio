@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { site } from '../data/site';
+---
+
+<Layout title="Contact | Jovanny Ramírez" description="Contact Jovanny Ramírez for senior fullstack and mobile engineering opportunities.">
+	<main class="shell page-stack">
+		<SectionIntro
+			kicker="Contact"
+			title="I'm open to remote opportunities and collaborations."
+			copy="Minimal, direct contact details for senior engineering roles, freelance opportunities, and product-focused collaborations."
+		/>
+
+		<section class="contact-page-grid">
+			<article class="contact-intro-card">
+				<p class="project-label">Availability</p>
+				<p class="contact-lede">I&apos;m open to remote opportunities and collaborations.</p>
+				<p class="contact-support">
+					Based in {site.location}, focused on mobile products, backend architecture, scalable
+					APIs, and real-time systems.
+				</p>
+			</article>
+
+			<div class="contact-grid">
+				<article class="detail-card contact-card-item">
+					<p class="project-label">Email</p>
+					<p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+				</article>
+				<article class="detail-card contact-card-item">
+					<p class="project-label">GitHub</p>
+					<p><a href={site.github} target="_blank" rel="noreferrer">github.com/jovannyrch</a></p>
+				</article>
+				<article class="detail-card contact-card-item">
+					<p class="project-label">LinkedIn</p>
+					<p>
+						{site.linkedin ? (
+							<a href={site.linkedin} target="_blank" rel="noreferrer">{site.linkedin}</a>
+						) : (
+							<span>Profile URL pending</span>
+						)}
+					</p>
+				</article>
+			</div>
+		</section>
+	</main>
+</Layout>

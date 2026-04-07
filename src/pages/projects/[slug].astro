@@ -1,0 +1,122 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+
+	return projects.map((project) => ({
+		params: { slug: project.id },
+		props: { project },
+	}));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const projectLinks = Object.entries(project.data.links).filter(([, value]) => Boolean(value));
+const categoryLabels = {
+	mobile: 'Mobile',
+	backend: 'Backend',
+	enterprise: 'Enterprise',
+};
+---
+
+<Layout title={`${project.data.title} | Jovanny Ramírez`} description={project.data.description}>
+	<main class="shell page-stack">
+		<section class="project-hero">
+			<p class="section-kicker">{categoryLabels[project.data.category]}</p>
+			<h1 class="page-title">{project.data.title}</h1>
+			<p class="page-copy">{project.data.description}</p>
+			<div class="project-detail-grid">
+				<div class="detail-card">
+					<p class="project-label">Category</p>
+					<p>{categoryLabels[project.data.category]}</p>
+				</div>
+				<div class="detail-card">
+					<p class="project-label">Featured</p>
+					<p>{project.data.featured ? 'Yes' : 'No'}</p>
+				</div>
+				<div class="detail-card detail-span">
+					<p class="project-label">Tech Stack</p>
+					<ul class="project-tech-list">
+						{project.data.techStack.map((item) => <li>{item}</li>)}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="case-study-grid">
+				<article class="case-study-card case-study-wide">
+					<p class="project-label">Overview</p>
+					<p class="case-study-copy">{project.data.overview}</p>
+				</article>
+				<article class="case-study-card">
+					<p class="project-label">Problem</p>
+					<p class="case-study-copy">{project.data.problem}</p>
+				</article>
+				<article class="case-study-card">
+					<p class="project-label">Solution</p>
+					<p class="case-study-copy">{project.data.solution}</p>
+				</article>
+				<article class="case-study-card">
+					<p class="project-label">My Role</p>
+					<p class="case-study-copy">{project.data.myRole}</p>
+				</article>
+				<article class="case-study-card">
+					<p class="project-label">Architecture</p>
+					<p class="case-study-copy">{project.data.architecture}</p>
+				</article>
+				<article class="case-study-card case-study-wide">
+					<p class="project-label">Impact</p>
+					<p class="case-study-copy">{project.data.impact}</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="section-head compact">
+				<p class="section-kicker">Visuals</p>
+			</div>
+			<div class="visual-grid">
+				{
+					project.data.visuals.map((visual) => (
+						<article class="visual-placeholder">
+							<div class="visual-frame">
+								<span>{visual.title}</span>
+							</div>
+							<p class="visual-caption">{visual.caption}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="content-section">
+			<div class="detail-layout">
+				<article class="detail-card">
+					<p class="project-label">Metrics</p>
+					<ul class="detail-list">
+						{project.data.metrics.downloads && <li>Downloads: {project.data.metrics.downloads}</li>}
+						{project.data.metrics.users && <li>Users: {project.data.metrics.users}</li>}
+						{project.data.metrics.other.map((item) => <li>{item}</li>)}
+					</ul>
+				</article>
+				<article class="detail-card">
+					<p class="project-label">Links</p>
+					{projectLinks.length > 0 ? (
+						<ul class="detail-list">
+							{projectLinks.map(([label, value]) => <li><a href={value!} target="_blank" rel="noreferrer">{label}</a></li>)}
+						</ul>
+					) : (
+						<p>No public links available.</p>
+					)}
+				</article>
+			</div>
+		</section>
+
+		<section class="content-section prose-card">
+			<Content />
+		</section>
+	</main>
+</Layout>

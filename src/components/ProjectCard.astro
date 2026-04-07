@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data, id } = project;
+---
+
+<article class="project-card">
+	<div class="project-card-head">
+		<p class="project-category">{data.category}</p>
+		{data.metrics.downloads && <p class="project-role">{data.metrics.downloads}</p>}
+	</div>
+	<h2 class="project-title">
+		<a href={`/projects/${id}`}>{data.title}</a>
+	</h2>
+	<p class="project-summary">{data.description}</p>
+	{(data.metrics.users || data.metrics.other.length > 0) && (
+		<div class="project-meta">
+			{data.metrics.users && (
+				<div>
+					<p class="project-label">Users</p>
+					<p>{data.metrics.users}</p>
+				</div>
+			)}
+			{data.metrics.other.length > 0 && (
+				<div>
+					<p class="project-label">Impact</p>
+					<p>{data.metrics.other[0]}</p>
+				</div>
+			)}
+		</div>
+	)}
+	<ul class="project-tech-list">
+		{data.techStack.map((item) => <li>{item}</li>)}
+	</ul>
+</article>
