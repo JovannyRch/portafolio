@@ -1,6 +1,7 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { projectDescriptionsEs, projectsEs } from '../../data/i18n';
 
 export async function getStaticPaths() {
 	const projects = await getCollection('projects');
@@ -12,32 +13,33 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
 const projectLinks = Object.entries(project.data.links).filter(([, value]) => Boolean(value));
 const categoryLabels = {
 	mobile: 'Mobile',
 	backend: 'Backend',
 	enterprise: 'Enterprise',
 };
+const categoryLabelsEs = { mobile: 'Móvil', backend: 'Backend', enterprise: 'Empresarial' };
+const projectEs = projectsEs[project.id];
 ---
 
 <Layout title={`${project.data.title} | Jovanny Ramírez`} description={project.data.description}>
-	<main class="shell page-stack">
+	<main class="shell page-stack inner-page project-detail-page">
 		<section class="project-hero">
-			<p class="section-kicker">{categoryLabels[project.data.category]}</p>
+			<p class="section-kicker" data-copy-es={categoryLabelsEs[project.data.category]} data-copy-en={categoryLabels[project.data.category]}>{categoryLabelsEs[project.data.category]}</p>
 			<h1 class="page-title">{project.data.title}</h1>
-			<p class="page-copy">{project.data.description}</p>
+			<p class="page-copy" data-copy-es={projectDescriptionsEs[project.id]} data-copy-en={project.data.description}>{projectDescriptionsEs[project.id]}</p>
 			<div class="project-detail-grid">
 				<div class="detail-card">
-					<p class="project-label">Category</p>
-					<p>{categoryLabels[project.data.category]}</p>
+					<p class="project-label" data-copy-es="Categoría" data-copy-en="Category">Categoría</p>
+					<p data-copy-es={categoryLabelsEs[project.data.category]} data-copy-en={categoryLabels[project.data.category]}>{categoryLabelsEs[project.data.category]}</p>
 				</div>
 				<div class="detail-card">
-					<p class="project-label">Featured</p>
-					<p>{project.data.featured ? 'Yes' : 'No'}</p>
+					<p class="project-label" data-copy-es="Destacado" data-copy-en="Featured">Destacado</p>
+					<p data-copy-es={project.data.featured ? 'Sí' : 'No'} data-copy-en={project.data.featured ? 'Yes' : 'No'}>{project.data.featured ? 'Sí' : 'No'}</p>
 				</div>
 				<div class="detail-card detail-span">
-					<p class="project-label">Tech Stack</p>
+					<p class="project-label" data-copy-es="Stack técnico" data-copy-en="Tech Stack">Stack técnico</p>
 					<ul class="project-tech-list">
 						{project.data.techStack.map((item) => <li>{item}</li>)}
 					</ul>
@@ -48,35 +50,35 @@ const categoryLabels = {
 		<section class="content-section">
 			<div class="case-study-grid">
 				<article class="case-study-card case-study-wide">
-					<p class="project-label">Overview</p>
-					<p class="case-study-copy">{project.data.overview}</p>
+					<p class="project-label" data-copy-es="Resumen" data-copy-en="Overview">Resumen</p>
+					<p class="case-study-copy" data-copy-es={projectEs.overview} data-copy-en={project.data.overview}>{projectEs.overview}</p>
 				</article>
 				<article class="case-study-card">
-					<p class="project-label">Problem</p>
-					<p class="case-study-copy">{project.data.problem}</p>
+					<p class="project-label" data-copy-es="Problema" data-copy-en="Problem">Problema</p>
+					<p class="case-study-copy" data-copy-es={projectEs.problem} data-copy-en={project.data.problem}>{projectEs.problem}</p>
 				</article>
 				<article class="case-study-card">
-					<p class="project-label">Solution</p>
-					<p class="case-study-copy">{project.data.solution}</p>
+					<p class="project-label" data-copy-es="Solución" data-copy-en="Solution">Solución</p>
+					<p class="case-study-copy" data-copy-es={projectEs.solution} data-copy-en={project.data.solution}>{projectEs.solution}</p>
 				</article>
 				<article class="case-study-card">
-					<p class="project-label">My Role</p>
-					<p class="case-study-copy">{project.data.myRole}</p>
+					<p class="project-label" data-copy-es="Mi rol" data-copy-en="My Role">Mi rol</p>
+					<p class="case-study-copy" data-copy-es={projectEs.myRole} data-copy-en={project.data.myRole}>{projectEs.myRole}</p>
 				</article>
 				<article class="case-study-card">
-					<p class="project-label">Architecture</p>
-					<p class="case-study-copy">{project.data.architecture}</p>
+					<p class="project-label" data-copy-es="Arquitectura" data-copy-en="Architecture">Arquitectura</p>
+					<p class="case-study-copy" data-copy-es={projectEs.architecture} data-copy-en={project.data.architecture}>{projectEs.architecture}</p>
 				</article>
 				<article class="case-study-card case-study-wide">
-					<p class="project-label">Impact</p>
-					<p class="case-study-copy">{project.data.impact}</p>
+					<p class="project-label" data-copy-es="Impacto" data-copy-en="Impact">Impacto</p>
+					<p class="case-study-copy" data-copy-es={projectEs.impact} data-copy-en={project.data.impact}>{projectEs.impact}</p>
 				</article>
 			</div>
 		</section>
 
 		<section class="content-section">
 			<div class="section-head compact">
-				<p class="section-kicker">Visuals</p>
+				<p class="section-kicker" data-copy-es="Visuales" data-copy-en="Visuals">Visuales</p>
 			</div>
 			<div class="visual-grid">
 				{
@@ -95,7 +97,7 @@ const categoryLabels = {
 		<section class="content-section">
 			<div class="detail-layout">
 				<article class="detail-card">
-					<p class="project-label">Metrics</p>
+					<p class="project-label" data-copy-es="Métricas" data-copy-en="Metrics">Métricas</p>
 					<ul class="detail-list">
 						{project.data.metrics.downloads && <li>Downloads: {project.data.metrics.downloads}</li>}
 						{project.data.metrics.users && <li>Users: {project.data.metrics.users}</li>}
@@ -103,20 +105,17 @@ const categoryLabels = {
 					</ul>
 				</article>
 				<article class="detail-card">
-					<p class="project-label">Links</p>
+					<p class="project-label" data-copy-es="Enlaces" data-copy-en="Links">Enlaces</p>
 					{projectLinks.length > 0 ? (
 						<ul class="detail-list">
 							{projectLinks.map(([label, value]) => <li><a href={value!} target="_blank" rel="noreferrer">{label}</a></li>)}
 						</ul>
 					) : (
-						<p>No public links available.</p>
+						<p data-copy-es="No hay enlaces públicos disponibles." data-copy-en="No public links available.">No hay enlaces públicos disponibles.</p>
 					)}
 				</article>
 			</div>
 		</section>
 
-		<section class="content-section prose-card">
-			<Content />
-		</section>
 	</main>
 </Layout>

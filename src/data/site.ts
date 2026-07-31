@@ -7,7 +7,7 @@ export const site = {
 	location: 'Mexico',
 	email: 'jovannyrch@gmail.com',
 	github: 'https://github.com/jovannyrch',
-	linkedin: '',
+	linkedin: 'https://linkedin.com/in/jovannyrch',
 	navigation: [
 		{ href: '/', label: 'Inicio', labelEs: 'Inicio', labelEn: 'Home' },
 		{ href: '/projects', label: 'Proyectos', labelEs: 'Proyectos', labelEn: 'Projects' },

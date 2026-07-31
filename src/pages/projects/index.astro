@@ -3,25 +3,29 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import SectionIntro from '../../components/SectionIntro.astro';
+import { projectDescriptionsEs } from '../../data/i18n';
 
 const projects = (await getCollection('projects')).sort((a, b) => {
 	if (a.data.category === b.data.category) return a.data.title.localeCompare(b.data.title);
 	return a.data.category.localeCompare(b.data.category);
 });
 const filters = [
-	{ label: 'All', value: 'all' },
-	{ label: 'Mobile', value: 'mobile' },
-	{ label: 'Backend', value: 'backend' },
-	{ label: 'Enterprise', value: 'enterprise' },
+	{ label: 'All', labelEs: 'Todos', value: 'all' },
+	{ label: 'Mobile', labelEs: 'Móvil', value: 'mobile' },
+	{ label: 'Backend', labelEs: 'Backend', value: 'backend' },
+	{ label: 'Enterprise', labelEs: 'Empresarial', value: 'enterprise' },
 ];
 ---
 
 <Layout title="Projects | Jovanny Ramírez" description="Selected projects across enterprise systems, mobile products, and integrations.">
-	<main class="shell page-stack">
+	<main class="shell page-stack inner-page projects-page">
 		<SectionIntro
 			kicker="Projects"
+			kickerEs="Proyectos"
 			title="Selected work across enterprise systems, mobile products, and integrations."
+			titleEs="Trabajo seleccionado en sistemas empresariales, productos móviles e integraciones."
 			copy="Project entries are powered by Astro content collections for a clean, scalable case-study structure."
+			copyEs="Casos de estudio estructurados para mostrar decisiones técnicas, ejecución e impacto."
 		/>
 
 		<section class="content-section">
@@ -36,19 +40,19 @@ const filters = [
 								role="tab"
 								aria-selected={index === 0 ? 'true' : 'false'}
 							>
-								{filter.label}
+								<span data-copy-es={filter.labelEs} data-copy-en={filter.label}>{filter.labelEs}</span>
 							</button>
 						))
 					}
 				</div>
-				<p class="projects-count" data-project-count>{projects.length} projects</p>
+				<p class="projects-count" data-project-count data-count={projects.length}>{projects.length} proyectos</p>
 			</div>
 
 			<div class="project-grid" data-project-grid>
 				{
 					projects.map((project) => (
 						<div data-project-item data-category={project.data.category}>
-							<ProjectCard project={project} />
+							<ProjectCard project={project} descriptionEs={projectDescriptionsEs[project.id]} />
 						</div>
 					))
 				}
@@ -75,7 +79,10 @@ const filters = [
 			});
 
 			if (countNode) {
-				countNode.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'}`;
+			const language = document.documentElement.dataset.language || 'es';
+			countNode.textContent = language === 'es'
+				? `${visibleCount} proyecto${visibleCount === 1 ? '' : 's'}`
+				: `${visibleCount} project${visibleCount === 1 ? '' : 's'}`;
 			}
 		};
 
@@ -97,6 +104,14 @@ const filters = [
 		});
 
 		updateProjects('all');
+
+		if (document.documentElement.dataset.projectLanguageBound !== 'true') {
+			document.documentElement.dataset.projectLanguageBound = 'true';
+			window.addEventListener('languagechange', () => {
+				const activeButton = filterButtons.find((button) => button.classList.contains('is-active'));
+				updateProjects(activeButton?.dataset.filter ?? 'all');
+			});
+		}
 	};
 
 	if (document.readyState === 'loading') {

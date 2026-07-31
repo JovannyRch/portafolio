@@ -2,19 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import { experience } from '../data/profile';
+import { experienceEs } from '../data/i18n';
 ---
 
 <Layout title="About | Jovanny Ramírez" description="About Jovanny Ramírez, Senior Fullstack & Mobile Engineer.">
-	<main class="shell page-stack">
+	<main class="shell page-stack inner-page about-page">
 		<SectionIntro
 			kicker="About"
+			kickerEs="Sobre mí"
 			title="Senior engineer focused on scalable systems, mobile products, and architecture-led delivery."
+			titleEs="Ingeniero senior enfocado en sistemas escalables, productos móviles y entregas guiadas por arquitectura."
 			copy="Experience spans published mobile products, enterprise applications, backend architecture, real-time systems, and mentoring."
+			copyEs="Experiencia en productos móviles publicados, aplicaciones empresariales, arquitectura backend, sistemas en tiempo real y mentoría."
 		/>
 
 		<section class="timeline-list">
 			{
-				experience.map((job) => (
+				experience.map((job, index) => (
 					<article class="timeline-item">
 						<div class="timeline-meta">
 							<p class="timeline-period">{job.period}</p>
@@ -22,9 +26,9 @@ import { experience } from '../data/profile';
 						</div>
 						<div class="timeline-content">
 							<h2>{job.role}</h2>
-							<p class="timeline-summary">{job.summary}</p>
+							<p class="timeline-summary" data-copy-es={experienceEs[index].summary} data-copy-en={job.summary}>{experienceEs[index].summary}</p>
 							<ul>
-								{job.points.map((point) => <li>{point}</li>)}
+								{job.points.map((point, pointIndex) => <li data-copy-es={experienceEs[index].points[pointIndex]} data-copy-en={point}>{experienceEs[index].points[pointIndex]}</li>)}
 							</ul>
 						</div>
 					</article>

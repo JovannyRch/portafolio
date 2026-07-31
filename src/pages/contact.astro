@@ -5,26 +5,26 @@ import { site } from '../data/site';
 ---
 
 <Layout title="Contact | Jovanny Ramírez" description="Contact Jovanny Ramírez for senior fullstack and mobile engineering opportunities.">
-	<main class="shell page-stack">
+	<main class="shell page-stack inner-page contact-page">
 		<SectionIntro
 			kicker="Contact"
+			kickerEs="Contacto"
 			title="I'm open to remote opportunities and collaborations."
+			titleEs="Estoy disponible para oportunidades remotas y colaboraciones."
 			copy="Minimal, direct contact details for senior engineering roles, freelance opportunities, and product-focused collaborations."
+			copyEs="Contacto directo para posiciones senior, proyectos freelance y colaboraciones enfocadas en producto."
 		/>
 
 		<section class="contact-page-grid">
 			<article class="contact-intro-card">
-				<p class="project-label">Availability</p>
-				<p class="contact-lede">I&apos;m open to remote opportunities and collaborations.</p>
-				<p class="contact-support">
-					Based in {site.location}, focused on mobile products, backend architecture, scalable
-					APIs, and real-time systems.
-				</p>
+				<p class="project-label" data-copy-es="Disponibilidad" data-copy-en="Availability">Disponibilidad</p>
+				<p class="contact-lede" data-copy-es="Estoy disponible para oportunidades remotas y colaboraciones." data-copy-en="I’m open to remote opportunities and collaborations.">Estoy disponible para oportunidades remotas y colaboraciones.</p>
+				<p class="contact-support" data-copy-es={`Desde ${site.location}, enfocado en productos móviles, arquitectura backend, APIs escalables y sistemas en tiempo real.`} data-copy-en={`Based in ${site.location}, focused on mobile products, backend architecture, scalable APIs, and real-time systems.`}>Desde {site.location}, enfocado en productos móviles, arquitectura backend, APIs escalables y sistemas en tiempo real.</p>
 			</article>
 
 			<div class="contact-grid">
 				<article class="detail-card contact-card-item">
-					<p class="project-label">Email</p>
+					<p class="project-label" data-copy-es="Correo" data-copy-en="Email">Correo</p>
 					<p><a href={`mailto:${site.email}`}>{site.email}</a></p>
 				</article>
 				<article class="detail-card contact-card-item">
@@ -37,7 +37,7 @@ import { site } from '../data/site';
 						{site.linkedin ? (
 							<a href={site.linkedin} target="_blank" rel="noreferrer">{site.linkedin}</a>
 						) : (
-							<span>Profile URL pending</span>
+							<span data-copy-es="URL del perfil pendiente" data-copy-en="Profile URL pending">URL del perfil pendiente</span>
 						)}
 					</p>
 				</article>

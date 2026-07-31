@@ -6,11 +6,11 @@ import { site } from '../data/site';
 	<div class="shell footer-inner">
 		<div>
 			<p class="footer-title">{site.name}</p>
-			<p class="footer-copy">{site.role} based in {site.location}.</p>
+			<p class="footer-copy" data-copy-es={`${site.role} en ${site.location}.`} data-copy-en={`${site.role} based in ${site.location}.`}>{site.role} en {site.location}.</p>
 		</div>
 		<div class="footer-links">
 			<a href={`mailto:${site.email}`}>{site.email}</a>
-			<a href="/cv">View CV</a>
+			<a href="/cv" data-copy-es="Ver CV" data-copy-en="View CV">Ver CV</a>
 		</div>
 	</div>
 </footer>

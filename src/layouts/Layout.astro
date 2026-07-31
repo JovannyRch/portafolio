@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/inner-pages.css';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { site } from '../data/site';
@@ -77,6 +78,7 @@ const ogImage = '/favicon.svg';
 							root.lang = language;
 							localStorage.setItem('language', language);
 							syncLanguageUI();
+							window.dispatchEvent(new CustomEvent('languagechange', { detail: { language } }));
 						});
 					});
 					syncLanguageUI();

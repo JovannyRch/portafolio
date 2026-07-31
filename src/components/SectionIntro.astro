@@ -3,13 +3,19 @@ interface Props {
 	kicker: string;
 	title: string;
 	copy?: string;
+	kickerEs?: string;
+	titleEs?: string;
+	copyEs?: string;
 }
 
-const { kicker, title, copy } = Astro.props;
+const { kicker, title, copy, kickerEs = kicker, titleEs = title, copyEs = copy } = Astro.props;
 ---
 
 <div class="section-intro">
-	<p class="section-kicker">{kicker}</p>
-	<h1 class="page-title">{title}</h1>
-	{copy && <p class="page-copy">{copy}</p>}
+	<div class="section-intro-marker" aria-hidden="true"><span>JR</span></div>
+	<div class="section-intro-copy">
+		<p class="section-kicker" data-copy-es={kickerEs} data-copy-en={kicker}>{kickerEs}</p>
+		<h1 class="page-title" data-copy-es={titleEs} data-copy-en={title}>{titleEs}</h1>
+		{copy && <p class="page-copy" data-copy-es={copyEs} data-copy-en={copy}>{copyEs}</p>}
+	</div>
 </div>
