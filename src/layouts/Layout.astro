@@ -18,11 +18,11 @@ const ogImage = '/favicon.svg';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="theme-color" content="#f3efe7" />
+		<meta name="theme-color" content="#111315" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
@@ -40,12 +40,10 @@ const ogImage = '/favicon.svg';
 			(() => {
 				const root = document.documentElement;
 				root.classList.add('js');
-				const storedTheme = localStorage.getItem('theme');
-				const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-				const theme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-				root.dataset.theme = theme;
-				const themeColor = theme === 'dark' ? '#111315' : '#f3efe7';
-				document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
+				const storedLanguage = localStorage.getItem('language');
+				const language = storedLanguage || (navigator.languages?.some((item) => item.toLowerCase().startsWith('es')) ? 'es' : 'en');
+				root.lang = language;
+				root.dataset.language = language;
 			})();
 		</script>
 	</head>
@@ -56,28 +54,32 @@ const ogImage = '/favicon.svg';
 		<script is:inline>
 			(() => {
 				const root = document.documentElement;
-				const themeMeta = document.querySelector('meta[name="theme-color"]');
-
-				const syncThemeUI = () => {
-					const currentTheme = root.dataset.theme || 'light';
-					document.querySelectorAll('[data-theme-label]').forEach((node) => {
-						node.textContent = currentTheme === 'dark' ? 'Dark' : 'Light';
+				const syncLanguageUI = () => {
+					const language = root.dataset.language || 'es';
+					document.querySelectorAll('[data-copy-es][data-copy-en]').forEach((node) => {
+						node.textContent = node.getAttribute(`data-copy-${language}`) || '';
 					});
-					themeMeta?.setAttribute('content', currentTheme === 'dark' ? '#111315' : '#f3efe7');
+					document.querySelectorAll('[data-language-label]').forEach((node) => {
+						node.textContent = language.toUpperCase();
+					});
+					document.querySelectorAll('[data-language-toggle]').forEach((button) => {
+						button.setAttribute('aria-label', language === 'es' ? 'Cambiar idioma a inglés' : 'Switch language to Spanish');
+					});
 				};
 
-				const bindThemeToggle = () => {
-					document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+				const bindLanguageToggle = () => {
+					document.querySelectorAll('[data-language-toggle]').forEach((button) => {
 						if (button.dataset.bound === 'true') return;
 						button.dataset.bound = 'true';
 						button.addEventListener('click', () => {
-							const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-							root.dataset.theme = nextTheme;
-							localStorage.setItem('theme', nextTheme);
-							syncThemeUI();
+							const language = root.dataset.language === 'es' ? 'en' : 'es';
+							root.dataset.language = language;
+							root.lang = language;
+							localStorage.setItem('language', language);
+							syncLanguageUI();
 						});
 					});
-					syncThemeUI();
+					syncLanguageUI();
 				};
 
 				const bindScrollReveal = () => {
@@ -109,7 +111,7 @@ const ogImage = '/favicon.svg';
 				};
 
 				const initUIEnhancements = () => {
-					bindThemeToggle();
+					bindLanguageToggle();
 					bindScrollReveal();
 				};
 

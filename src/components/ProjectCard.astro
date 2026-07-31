@@ -3,9 +3,10 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
 	project: CollectionEntry<'projects'>;
+	descriptionEs?: string;
 }
 
-const { project } = Astro.props;
+const { project, descriptionEs } = Astro.props;
 const { data, id } = project;
 ---
 
@@ -17,7 +18,7 @@ const { data, id } = project;
 	<h2 class="project-title">
 		<a href={`/projects/${id}`}>{data.title}</a>
 	</h2>
-	<p class="project-summary">{data.description}</p>
+	<p class="project-summary" data-copy-es={descriptionEs || data.description} data-copy-en={data.description}>{descriptionEs || data.description}</p>
 	{(data.metrics.users || data.metrics.other.length > 0) && (
 		<div class="project-meta">
 			{data.metrics.users && (

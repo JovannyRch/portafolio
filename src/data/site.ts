@@ -9,10 +9,10 @@ export const site = {
 	github: 'https://github.com/jovannyrch',
 	linkedin: '',
 	navigation: [
-		{ href: '/', label: 'Home' },
-		{ href: '/projects', label: 'Projects' },
-		{ href: '/about', label: 'About' },
-		{ href: '/contact', label: 'Contact' },
-		{ href: '/cv', label: 'CV' },
+		{ href: '/', label: 'Inicio', labelEs: 'Inicio', labelEn: 'Home' },
+		{ href: '/projects', label: 'Proyectos', labelEs: 'Proyectos', labelEn: 'Projects' },
+		{ href: '/about', label: 'Sobre mí', labelEs: 'Sobre mí', labelEn: 'About' },
+		{ href: '/contact', label: 'Contacto', labelEs: 'Contacto', labelEn: 'Contact' },
+		{ href: '/cv', label: 'CV', labelEs: 'CV', labelEn: 'CV' },
 	],
 };
