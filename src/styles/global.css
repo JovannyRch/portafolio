@@ -449,6 +449,7 @@ h3,
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	gap: 9px;
 	min-height: 48px;
 	padding: 0 18px;
 	border-radius: 999px;
@@ -468,8 +469,22 @@ h3,
 }
 
 .button-primary {
-	background: var(--text);
-	color: #f8f2e8;
+	border: 1px solid #63d8e7;
+	background: #63d8e7;
+	color: #0d1113;
+	box-shadow: 0 0 0 4px rgba(99, 216, 231, 0.08);
+}
+
+.button-primary:hover {
+	border-color: #8feaf4;
+	background: #8feaf4;
+	color: #0d1113;
+	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24), 0 0 0 5px rgba(99, 216, 231, 0.1);
+}
+
+.button-primary:focus-visible {
+	outline: 2px solid #8feaf4;
+	outline-offset: 4px;
 }
 
 .button-secondary {
