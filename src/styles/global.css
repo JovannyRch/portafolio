@@ -573,10 +573,16 @@ h3,
 }
 
 .filter-chip.is-active {
-	background: var(--text);
-	color: #f8f2e8;
-	border-color: var(--text);
-	box-shadow: 0 14px 30px rgba(33, 28, 20, 0.1);
+	background: #63d8e7;
+	color: #0d1113;
+	border-color: #63d8e7;
+	box-shadow: 0 0 0 4px rgba(99, 216, 231, 0.1), 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.filter-chip.is-active:hover {
+	color: #0d1113;
+	border-color: #8feaf4;
+	background: #8feaf4;
 }
 
 .projects-count {
